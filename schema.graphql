@@ -1,0 +1,50 @@
+"""
+The Pool Registry entity manages pools and markets
+"""
+type PoolRegistry @entity {
+    "ID is set to 1"
+    id: ID!
+}
+
+
+enum RiskRating {
+    VERY_HIGH_RISK
+    HIGH_RISK
+    MEDIUM_RISK
+    LOW_RISK
+    MINIMAL_RISK
+}
+
+"""
+The Pool entity
+"""
+type Pool @entity {
+    "Comptroller of the pool"
+    id: ID!
+    "Name of the pool"
+    name: String!
+    "Creator of the pool"
+    creator: Bytes!
+    "Block where the market was created"
+    blockPosted: BigInt!
+    "Timestamp of market creation"
+    timestampPosted: BigInt!
+    "Rating of the pools risk level"
+    riskRating: RiskRating!
+    "Category that the pool belongs too"
+    category: String!
+    "Url for pool logo"
+    logoUrl: String!
+    "Description of the pool"
+    description: String!
+    "Address of price oracle the comptroller uses"
+    priceOracle: Bytes!
+    "Factor used to determine repayAmount for liquidating"
+    closeFactor: BigInt!
+    "The percent bonus liquidators get for liquidating"
+    liquidationIncentive: BigInt!
+    "Min Liquidable Amount allowed"
+    minLiquidatableCollateral: BigInt!
+    "Max assets a single user can enter"
+    maxAssets: BigInt!
+}

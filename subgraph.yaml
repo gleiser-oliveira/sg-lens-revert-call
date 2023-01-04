@@ -1,0 +1,50 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PoolRegistry
+    network: chapel
+    source:
+      address: "0x6e8813dD1a5714182C700A6ba3A05a482b36dEdf"
+      abi: PoolRegistry
+      startBlock: 24711689
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PoolRegistry
+        - Comptroller
+      abis:
+        - name: PoolRegistry
+          file: ./abis/PoolRegistry.json
+        - name: Comptroller
+          file: ./abis/Comptroller.json
+        - name: PoolLens
+          file: ./abis/PoolLens.json
+      eventHandlers:
+        - event: PoolRegistered(indexed address,(string,address,address,uint256,uint256))
+          handler: handlePoolRegistered
+      file: ./src/pool-registry.ts
+
+templates:
+  - name: Pool
+    kind: ethereum/contract
+    network: chapel
+    source:
+      abi: Comptroller
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/pool.ts
+      entities:
+        - Pool
+      abis:
+        - name: Comptroller
+          file: ./abis/Comptroller.json
+        - name: PoolRegistry
+          file: ./abis/PoolRegistry.json
+        - name: PoolLens
+          file: ./abis/PoolLens.json
